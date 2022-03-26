@@ -1,0 +1,51 @@
+1. What is continuous integration and how do you implement it using Jenkins or any other CI tool? Also, explain the difference between continuous delivery and continuous deployment with the help of specific usecase.
+
+2. What is Version Control? Expplain difference between centralized and distributed version control tools with example.
+
+3. What is rebasing? How to rebase code using git commands? Explain by giving examples.
+
+6. What do you mean by Configuration management tools and which Configuration management tool you are comfortable with? Explain basic architecture of any one of these tools.
+
+7. What is a build tool. Explain the maven life cycle with examples.
+
+8. Explain the Concept of “Infrastructure as a Code". How can you implement this on cloud platform using any of the cloud tool.
+
+9. What is autoscaling. Explain the difference between scale-out and scale-up using real time usecase.
+
+10. What are the various states that a Docker container can be in at any given point in time?
+
+11. What are the most common instructions in Dockerfile?
+
+12. What is kubernetes and how to configure the kubernetes cluster. Please Elaborate?
+
+13. What is ELK stack? What is the role of logstash in ELK and how to configure ELK?
+
+14. To run the script, we can make it executable by using _____.  Choose best suitable option.
+a) chmod +x
+b) chmod +r
+c) chmod +w
+d) chmod +rwx
+
+15. The complete set of positional parameters is stored in ______ as a single string.
+a) $n
+b) $#
+c) $*
+d) $$
+
+16.Which one of the following is not one of the DevOps principles for good test automation?
+a) Test Automation should give quick and early feedback about your quality of work.
+b) Never mix test driven development (TDD) together with your test automation approach.
+c) Tests should generate consistent, deterministic and repeatable results provided same conditions for different test runs.
+d) With your test automation, avoid slow and periodic feedback. What you need is fast feedback whenever you or your developer attempts to check-in code to your trunk.
+
+17. Which one of the following techniques makes DevOps a successful methodology to develop and deliver software?
+a) DevOps enables you to organize your teams around your organizational mission.
+b) DevOps enables you to create your software with built-in quality and monitoring.
+c) DevOps enables you to quickly identify, fix and learn from errors.
+d) All above choices.
+
+18. What are the key elements of Continuous Testing tools? Name few Continuous Testing tools you used in Jenkins and how you configure it?
+
+19. Explain the concept of blue ocean deployment and how it is useful in DevOps world?
+
+20. How Is Devops is different from Agile methodlogy and how they complement each other? Exlpain with suitable examples.

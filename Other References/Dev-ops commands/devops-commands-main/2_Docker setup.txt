@@ -1,0 +1,191 @@
+sudo apt-get update
+sudo apt-get install  curl  apt-transport-https ca-certificates software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo apt-get update
+sudo apt-get install -y docker-ce
+sudo systemctl status docker
+
+--------------------------------------------------------
+
+sudo docker run hello-world     		# before that login to docker
+docker images
+docker search ubuntu
+---------------------------------------------------------------------
+
+Docker Compose installation steps       :  https://www.digitalocean.com/community/tutorials/how-to-install-docker-compose-on-ubuntu-16-04
+
+sudo curl -L https://github.com/docker/compose/releases/download/1.18.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+docker-compose --version
+
+
+Test
+
+docker run hello-world   # pulls the image from docker hub
+or
+
+mkdir hello-world
+cd hello-world
+vi docker-compose.yml
+	my-test:
+	  image: hello-world
+          image: python
+docker-compose up
+
+
+
+
+docker pull ubuntu
+docker history ubuntu
+docker search ubuntu --limit 5
+docker search --filter "stars=3“ <image_name>:<tag>
+docker search --filter "is-official=true“ <image_name>:<tag>
+docker search --filter "stars=30" ubuntu
+docker search --filter "is-official=true" ubuntu
+
+docker search ubuntu --filter "stars=50"
+docker search ubuntu --filter "is-official=true"
+ 
+docker images
+docker pull ubuntu:19.04
+docker pull ubuntu
+
+
+docker save ubuntu -o ubuntu.tar 
+
+docker rmi ubuntu
+docker load -i ubuntu.tar 
+
+docker rmi ubuntu:19.04
+
+
+docker run -d jenkins   # error
+docker run -d jenkins/jenkins
+docker ps
+docker stop <container id>
+docker ps -a
+docker restart <container id>
+docker ps
+docker pause <container id>
+docker unpause <container id>
+docker stop <container id>
+dcoker rm <container id>
+
+
+
+
+
+
+docker images
+docker ps   # nothing
+docker ps -a
+
+
+docker rm <container id>    # to delete container
+docker rmi hello-world
+
+docker run -it ubuntu bash   # pull ubuntu image and run container by loging into it.
+exit
+--------------------------------------------------------------------------------------
+
+docker pull ubuntu      # pull from server and run automatically 
+docker run ubuntu
+docker images
+
+
+Running a Docker Container
+
+root@u64:~# docker run -it ubuntu
+root@197ce45e3452:/#
+
+apt-get update
+apt-get install apache2
+service apache2 start
+
+exit
+
+docker ps
+docker ps -a
+
+
+
+docker run -it ubuntu bash  equivalent to below 2 commands
+	docker start 197ce45e3452
+	docker exec -t -i 197ce45e3452 /bin/bash
+
+root@197ce45e3452:/#service apache2 start
+exit
+
+
+
+docker run -d -p 9090:80 -t <image id for ubuntu>             #port forwarding, where 9090 is port accessible from host for port 80 in docker container
+ee15dd8ccb80
+docker ps
+ee15dd8ccb80
+
+docker exec -t -i ee15dd8ccb80 /bin/bash       #login to running container where ee15dd8ccb80 is container id
+install apache2 and start it
+
+And this can be accessed from host machine with http://192.168.56.106:9090/ where 192.168.56.106 is VM IP.
+
+#saving container changes as an image'
+
+root@u64:~# docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED                      STATUS              	PORTS                  	NAMES
+ee15dd8ccb80        1d9c17228a9e        "/bin/bash"         19 minutes ago	Up 19 minutes       0.0.0.0:9090->80/tcp   inspiring_driscoll
+root@u64:~# docker commit ee15dd8ccb80 ubuntu/apache2:version1
+sha256:19a15616eeab871ffff39d70df7367a6188e407a3bed02f1dd8b29e4df8fcc80
+
+root@u64:~# docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED      		SIZE
+ubuntu/apache2      version1            19a15616eeab        11 seconds ago	255MB
+hello-world         latest              fce289e99eb9        6 days ago		1.84kB
+ubuntu              latest              1d9c17228a9e        9 days ago		86.7MB
+
+
+docker rm <container-id>         # delete container if stopped
+docker rm $(docker ps -q -f status=exited)          # delete all stopped containers
+docker rmi `docker images` #delete all images
+
+
+#push image to docker hub
+docker login --username=puneetbhatia77
+docker tag 19a15616eeab puneetbhatia77/ubuntu-apache:version1  #tag image where puneetbatia77 is yourhubusername
+sudo docker push puneetbhatia77/ubuntu-apache
+------------------------------------------------------
+
+docker with Jenkins
+
+https://hackernoon.com/making-right-things-using-docker-7296cf0f6c6e
+
+docker run --name myjenkins -p 9999:8080 -d jenkins/jenkins
+docker ps   # to get container id
+docker exec -t -i <container id> /bin/bash
+<ip of VM>:9999		 #through host machine to access Jenkins URL    
+cat /var/jenkins_home/secrets/initialAdminPassword
+=======================================================================================================
+
+Dockerfile
+
+
+root@u64-18-04-docker:~# cat Dockerfile
+FROM ubuntu
+RUN apt-get update
+RUN ["apt-get", "install", "figlet"]
+CMD ["figlet", "-f", "script", "hello world"]
+
+docker build -t figlet1 .
+docker run figlet1
+
+root@u64-18-04-docker:~# cat Dockerfile
+FROM ubuntu
+RUN apt-get update
+RUN ["apt-get", "install", "figlet"]
+ENTRYPOINT ["figlet", "-f", "script"]
+CMD ["hello world"]
+
+docker build -t figlet .
+docker run figlet
+docker run figlet hello
+-------------------------------------------

@@ -1,0 +1,20 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Input') {
+            options {
+                timeout(time: 1, unit: 'MINUTES') 
+            }
+            steps {
+                input('Do you want to proceed?')
+            }
+        }
+
+        stage('If Proceed is clicked') {
+            steps {
+                print('hello')
+            }
+        }
+    }
+}

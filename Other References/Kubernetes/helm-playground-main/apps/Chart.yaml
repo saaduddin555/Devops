@@ -1,0 +1,11 @@
+apiVersion: v2
+name: Jinove GCP apps
+version: 1.0.0
+kubeVersion: '^1.8.0-0'
+description: Jinove APPS
+home: https://www.jinove.com
+icon: https://jinovelogourlo.svg
+sources:
+  - https://github.com:eliarms/helm-playground
+engine: gotpl
+type: application

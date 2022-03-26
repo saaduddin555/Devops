@@ -1,0 +1,36 @@
+curl https://assets.nagios.com/downloads/nagiosxi/install.sh | sh
+
+http://10.0.1.4/nagiosxi/         #        http://192.168.56.101/nagiosxi
+
+/usr/local/nagiosxi/scripts/reset_nagiosadmin_password.php --password=nagiosadmin
+
+
+# add host
+apt-get install docker.io -y
+docker run --name mysql -d -e MYSQL_ROOT_PASSWORD=password mysql:5.7
+docker inspect mysql | grep IP
+
+
+configure -> configuration wiard -> MYSQL Server
+172.17.0.2
+username : admin
+password: password
+Finish
+
+Configure -> core config manager to modify hosts
+
+# docker stop     -> check host health
+# docker start    -> check host health
+
+# check last alerts
+
+
+# Mass immediate check
+# Notifications
+    
+
+Configure -> core config manager to delete hosts
+Delete 172.17.0.2
+apply configurations
+
+

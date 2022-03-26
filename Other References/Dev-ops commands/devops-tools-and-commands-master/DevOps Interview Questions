@@ -1,0 +1,249 @@
+1) How wil you take backup copy of Jenkins?
+A) By taking the backup of the Jenkins Home Folder using echo $JENKINS_HOME or using the /var/lib/jenkins directory
+
+2) What is the Unix command to find the pid of running process?
+A) ps -p 3095
+
+3) Attributes available in the filedescriptor objects
+A) File descriptors are bound to a process ID.
+We know most famous file descriptors are 0, 1 and 2. 0 corresponds to STDIN, 1 to STDOUT, and 2 to  STDERR.
+
+4) How to split a file with 1000 lines into 10 files of 100 lines
+A) split -l 1000 test.txt
+
+5) What is a resource in chef?
+A) Chef resource represents a piece of the operating system at its desired state.
+
+6) What are the components of chef software?
+A) Chef Workstation
+   Chef Infra client Nodes
+   Chef Infra server
+
+7) How to find number of open file limit per process?
+A) /proc/pid/limits
+
+8) How to Squash commits into one with Git?
+A) git rebase --interactive <commit-hash>
+
+
+9) What is a Docker Image?
+A) An Docker image is a blueprint for the Docker Container. A Docker Image is a lightweight, standalone, executable package of software that includes everything needed to run an application
+
+10) Do I loose my data when docker container exits?
+A) Yes, once your container ceases to exist or you restart it, the data will be lost. But that can be easily fixed if you use persistent volumes to store your data
+
+11) Which of the following are not stored in INODE?
+A) Inodes do not contain its hardlink names, only other file metadata. (ls -i)
+
+
+13) How to find a port is used in a running process
+A) netstat -tulpn | grep LISTEN
+
+14) What is Kubernetes?
+A) Kubernetes is an open source project that allows you to deploy and manage multi-container applications at scale.
+
+15) What is the basic unit of entity in Kubernetes?
+A) A Pod is the basic execution unit of a Kubernetes.
+
+16) What can be accessed outside a Kubernetes Cluster API?
+A)  ClusterIP
+    NodePort
+    LoadBalancer
+
+17) How to check RAM Usage in Linux?
+A) free -g
+
+12) Find the No of CORES in the CPU in Linux?
+A) nproc --all or lscpu
+
+18) What is a Docker Container?
+A) A container is a standard unit of software that packages up code and all its dependencies so the application runs quickly and reliably from one computing environment to another. Build Ship Run is the motto of Docker
+
+19) What is a Docker Registry?
+A) A Docker registry is organized into Docker repositories , where a repository holds all the versions of a specific image
+
+20) Which are the top DevOps tools? Which tools have you worked on?
+A) The most popular DevOps tools are mentioned below:
+
+    Git : Version Control System tool
+    Jenkins : Continuous Integration tool
+    Selenium : Continuous Testing tool
+    Puppet, Chef, Ansible : Configuration Management and Deployment tools
+    Nagios : Continuous Monitoring tool
+    Docker : Containerization tool
+    Kubernetes: Container Orchestration
+
+21) What is the most important thing DevOps helps us achieve?
+A) Get the changes into production as quickly as possible while minimizing risks in software quality assurance and compliance. 
+
+22) What is Git?
+A) Git is a Distributed Version Control system (DVCS)
+
+23) In Git how do you revert a commit that has already been pushed and made public?
+A) git rebase -i <after-this-commit>
+
+24) How will you know in Git if a branch has already been merged into master?
+A) git branch -merged
+
+25) Mention some of the useful plugins in Jenkins.
+A)  Maven 2 project
+    Amazon EC2
+    Docker
+    Amazon ECS plugin
+    Digitalocean plugin
+    HTML publisher
+    Copy artifact
+    Join
+    Green Balls
+    ThinBackup
+    Blue Ocean
+
+26) How will you secure Jenkins?
+A)  Ensure global security is on.
+    Ensure that Jenkins is integrated with my company’s user directory with appropriate plugin.
+    Ensure that matrix/Project matrix is enabled to fine tune access.
+    Automate the process of setting rights/privileges in Jenkins with custom version controlled script.
+    Limit physical access to Jenkins data/folders.
+    Periodically run security audits on same.
+
+27) How to automate Testing in DevOps lifecycle?
+A) Source code => Repo => Jenkins => Selenium
+
+28) What are the key elements of Continuous Testing tools?
+A)  Risk Assessment
+    Policy Analysis
+    Requirements Traceability
+    Advanced Analysis
+    Test Optimization
+    Service Virtualization
+
+29) What are the Testing types supported by Selenium
+A) Function and Regression Testing
+
+30) What do you understand by “Infrastructure as code”? How does it fit into the DevOps methodology? What purpose does it achieve?
+A) Infrastructure as Code (IAC) is a type of IT infrastructure that operations teams can use to automatically manage and provision through code, rather than using a manual process.
+
+31) Which among Puppet, Chef, SaltStack and Ansible is the best Configuration Management (CM) tool? Why?
+A)  Puppet - Oldest and Mature CM tool (Ruby)
+    Chef - can be customized by those who know the language (Ruby)
+    Ansible - very secure option since it uses Secure Shell
+    SaltStack - python based open source CM tool made for larger businesses
+    - Configuration Management tool which is used to automate administration tasks.
+
+32) What do you mean by recipe in Chef?
+A)  A Recipe is a collection of Resources that describes a particular configuration or policy.
+    A Recipe describes everything that is required to configure part of a system.
+
+33) What is Dockerfile used for?
+A) Docker can build images automatically by reading the instructions from a Dockerfile.
+    All the commands required to build a Docker Image
+
+34) What is Ansible?
+Ansible is mainly used in IT infrastructure to manage or deploy applications to remote nodes
+
+35) what are the tools used for docker networking
+A) For docker networking we generally use kubernetes and docker swarm.
+
+36) What is Git Stash?
+
+A) Git Stashing takes your working directory that is, your modified tracked files and staged changes and saves it on a stack of unfinished changes that you can reapply at any time.
+
+
+37) What are the Pros and Cons of Ansible?
+A) 
+
+Pros:
+    Open Source
+    Agent less
+    Improved efficiency , reduce cost
+    Less Maintenance
+    Easy to understand yaml files
+Cons:
+
+    Underdeveloped GUI with limited features
+    Increased focus on orchestration over configuration management
+    SSH communication slows down in scaled environments
+
+
+38) What is the Difference between COPY and ADD File:
+A) COPY takes in a src and destination
+   ADD takes into 2 other arguments URL, Extract tar from the source directly into the destination.
+   
+39) List DevOps Tools that you use for Code Analysis and Code Quality?
+A) Sonarqube
+
+
+40) What are the jenkins security Best practices?
+
+Security Best Practices:
+========================
+
+* Shield Jenkins from Internet, using firewall rules behind a VPN.
+* You will need to whitelist/Github API address for push requests
+* Security Vunerabilities
+* Keep Jenkins up-to-date
+* Keep plugins up-to-date
+* Configure Authentication and Authorization
+
+Authentication - verifying the identity of the user
+Authorization - Access rights to resources
+
+41) What are the benefits of having Jenkins Slave?
+
+- Reduced Costs
+- Slaves are easily replaceable
+- Respond to sudden changes in build
+- Two solutions for the demo
+
+    - Master node connects to the Slave
+    - Slave node connects to the Master
+
+42) What is an artifact in DevOps?
+A)  A release is a collection of Artifacts in Devops CI/CD Pipelines.
+    An artifact is a deployable component of your application.
+
+43) What is a pom.xml file in Maven?
+
+A) A POM file is a fundamental unit of work in Maven.
+   Its contains info about the project and the configuration details used by Maven to build the project.
+
+
+44) What is inode and process id?
+
+A) inode is the unique name given by the OS to each file. Process ID is unique id given to each process.
+
+
+45) What are Daemons?
+A) A Daemon is a computer program that runs in the background process to provide functions that might not be available in the base OS.
+
+46) What are the process states in Linux?
+A) 
+    Ready
+    Running
+    Blocked
+    Terminated
+    Zombie
+
+47) What is a tar command?
+A) tar command is used to extract files from an archive
+
+48) Difference between rsync and scp?
+A)
+
+    scp reads source file and copies it to destination
+    rsync also copies files locally over a network but uses a delta transfer algorithm
+
+
+49) How would you schedule a task in linux?
+A) Two commands: cron and at
+
+The cron command is used to repeatedly schedule a task at a specific time.
+The tasks are stored in a cron file
+
+<minute> <hour> <day> <month> <weekday> <command>
+
+50) 
+
+
+
+

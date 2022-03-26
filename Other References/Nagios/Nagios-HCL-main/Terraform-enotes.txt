@@ -1,0 +1,138 @@
+https://www.terraform.io/downloads.html
+https://learn.hashicorp.com/terraform
+-----------------------------------------------------------------------------------------------------
+https://learn.hashicorp.com/tutorials/terraform/install-cli    (tested on ubuntu as well as windows)
+WIndows
+---------
+Download Zip and extract -> D:\tools\terraform_0.14.10_windows_amd64
+Path -> Environment variables -> System variables -> D:\tools\terraform_1.1.0_windows_amd64
+
+cmd -> terraform --version
+
+terraform -help
+terraform -help init
+
+#Terraform with Docker
+https://learn.hashicorp.com/tutorials/terraform/install-cli
+Install docker on windows - https://docs.docker.com/docker-for-windows/install/
+mkdir D:\learn-terraform\docker
+cd D:\learn-terraform\docker
+
+#create main.tf at D:\learn-terraform\docker
+#main.tf
+-----------------------------
+terraform {
+  required_providers {
+    docker = {
+      source = "terraform-providers/docker"
+    }
+  }
+}
+
+provider "docker" {
+  host    = "npipe:////.//pipe//docker_engine"
+}
+
+resource "docker_image" "nginx" {
+  name         = "nginx:latest"
+  keep_locally = false
+}
+
+resource "docker_container" "nginx" {
+  image = docker_image.nginx.latest
+  name  = "tutorial"
+  ports {
+    internal = 80
+    external = 8000
+  }
+}
+
+
+D:\learn-terraform\docker> terraform init
+D:\learn-terraform\docker> terraform plan        #make sure docker is running else will get error.
+D:\learn-terraform\docker> terraform apply       # check at localhost:8000
+-------------------------------
+
+Ubuntu  -> https://learn.hashicorp.com/tutorials/terraform/install-cli
+------
+sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl
+curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+sudo apt-get update && sudo apt-get install terraform
+sudo apt install docker.io
+mkdir learn-terraform-docker-container
+cd learn-terraform-docker-container
+
+main.tf
+------------------------
+terraform {
+  required_providers {
+    docker = {
+      source  = "kreuzwerker/docker"
+      version = "~> 2.13.0"
+    }
+  }
+}
+
+provider "docker" {}
+
+resource "docker_image" "nginx" {
+  name         = "nginx:latest"
+  keep_locally = false
+}
+
+resource "docker_container" "nginx" {
+  image = docker_image.nginx.latest
+  name  = "tutorial"
+  ports {
+    internal = 80
+    external = 8000
+  }
+}
+-----------------------------
+
+terraform init
+terraform plan
+terraform apply
+
+terraform destroy
+
+
+
+
+====================================================================================
+
+#Terraform with Azure    https://learn.hashicorp.com/tutorials/terraform/azure-build
+
+#Prerequisites
+   Create azure account
+   Install the Azure CLI tool
+   Authenticate using the Azure CLI   -  az login
+
+mkdir D:\learn-terraform\azure
+cd D:\learn-terraform\azure
+#create main.tf to create resouce group
+
+terraform init
+terraform plan
+terraform apply
+---------------------------
+#rename main.tf with main.tf.1
+#rename main.tf.2 main.tf to create VM
+
+
+terraform init
+terraform plan
+terraform apply
+----------------------------------------------
+Terraform aws
+
+https://learn.hashicorp.com/tutorials/terraform/aws-build?in=terraform/aws-get-started
+
+
+Multi-instances.
+
+https://automateinfra.com/2021/03/22/how-to-launch-multiple-ec2-instances-on-aws-using-terraform/
+
+
+
