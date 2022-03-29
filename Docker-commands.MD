@@ -42,29 +42,45 @@ docker ps -aq                                          (only gets containers ID)
 
 docker run -it_image name                              (created a container and inside of container)
 
-docker rm_container id                                 to remove container or delete
+docker rm_container id                                  to remove container or delete
 
-docker rm (container id) -f                            to remove container forcefully with out stopping
+docker rm (container id) -f                             to remove container forcefully with out stopping
 
-docker rmi (image id)                                  to remove unused images in container
+docker rmi (image id)                                   to remove unused images in container
 
-docker run -p  8080:8080 -it --rm image name       Port mapping the address
+docker run -p  8080:8080 -it --rm image name             Port mapping the address
 docker run -p  8080:8080 --rm image name
 docker run  -d -t --name “myubuntu” ubuntu /bin/bash
 
-docker container ls                                    to get list of container
+docker container ls                                      to get list of container
 
-docker image ls                                         to get list of images
+docker image ls                                          to get list of images
 
 Create a repository in docker hub website first, if u want to push an image to docker hub
-docker login             To login in docker hub in linux server enter username and password
-docker commit_container id_repository name/image-new-name:tag             
-convert from container to image
+docker login                                                           To login in docker hub in linux server enter username and password
+docker commit_container id_repository name/image-new-name:tag          (convert from container to image)
 
 docker push_repository name/image-name:tag    (to push docker images to hub give account name)
 
+Create or link Volumes with in container to container
 docker run -it --name containername --privileged=true --volumes-from container1 ubuntu /bin/bash
-it means to run=to create -it=interactive mode --name=name of the conatiner --privileged=true means that volume to link --volumes-from= means to link volume from what container,give container-name and ubuntu=name of os /bin/bash=root folder
+(it means to run=to create -it=interactive mode --name=name of the conatiner --privileged=true means that volume to link --volumes-from= means to link volume from what container,give container-name and ubuntu=name of os /bin/bash=root folder)
+docker run -it --name containername -v /volumename ubuntu /bin/bash      (TO create a volume with container, a volume can be created only while creating a container)
+
+Link volumes from Host machine to ec2 container volume host to container
+mkdir shared  (creaqte folder in ec2 instance)
+get inside of shared folder
+docker run -it --name hostcont -v /home/shared:/foldername --privileged=true ubuntu /bin/bash
+/home/shared:/foldername, it is a path of ec2 server:/container link folder name to visible inside of container
+
+docker volume ls                                                   (to list out all volumes with name, ID)
+docker volume create newvolume
+dokcer volume rm newvolume
+docker volume prune                                     (to unmount all unmount volumes but not to use the command often)
+docker inspect volumename ()                            (to get volume details and creation of volume info)
+docker ps    (get container onfo)
+docker container inspect container name                 (to get all container related info)
+
 
 Docker File               
 FROM: for a base image the command must be on top of the docker
