@@ -96,6 +96,3 @@ CMD: Execute commands but during container creation
 ENTRYPOINT: Similar to CMD, but has higher priority over CMD, first commands will be executed by ENTRYPOINT only.
 ENV: Environment Variables
 VOLUME:TO CREATE DOCKER VOLUME EG: VOLUME ["/MYVOLUME"]  VOLUMES CAN BE CREATE BEFORE CREATING A CONTAINER
-
-
-gfnbgfnhg
