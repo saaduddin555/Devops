@@ -204,7 +204,11 @@ docker run -it –name (container name) –network(network name) (image name)
 
 
 
-#######Docker File               
+#######Docker File  
+# comment          
+Instruction arguments
+A docker file must Always start with FROM Instruction
+
 FROM: for a base image the command must be on top of the docker
 RUN: To execute Command, it will create a layer in the image.
 MAINTAINER: Author/owner/description
@@ -212,21 +216,52 @@ COPY: Copy files from the local system (docker VM) we need to provide a source, 
 ADD: Similar to copy but, it provides a feature to download files from the internet, also we extract files at the docker image side.
 EXPOSE: To Expose ports such as port 8080 for tomcat, port 80 for Nginx, etc.
 WORKDIR: To set a working directory for a container.
-CMD: Execute commands but during container creation
+CMD: Execute commands but during container creation AS DEFAULT CONTAINER 
 ENTRYPOINT: Similar to CMD, but has higher priority over CMD, first commands will be executed by ENTRYPOINT only.
 ENV: Environment Variables
 VOLUME:TO CREATE DOCKER VOLUME EG: VOLUME ["/MYVOLUME"]  VOLUMES CAN BE CREATE BEFORE CREATING A CONTAINER
+LABEL:
+USER:
+HEALTHCHECK --interval=5s CMD ping -c 1 IP_address (basically it can monitor whether other container is up or not and healthy for the ip address u give)
+                                                     exit code in inspect of network helps to check exit code=0 its good and exit code=1 Unhealthy.
+Depending up on use case we use dockerfile.
+
+# For example we need to create a custom image of Nginx.
+Hence write docker file:
+
+FROM ubuntu
+RUN apt-get update
+RUN apt-get install nginx
+COPY index.html /var/www/html
+CMD nginx -g 'daemon off;'
+
+save the docker file 
+
+docker build . (Build a dockerfile to image success)
+docker container run -d -p 8001:80 --name mycutomnginx image_id.
 
 docker build -t mytomcat .     
 To build image from docker file and -t refers to give a tag or name of the image then followed by .(dot refers that docker file is in current location or if not specify path of docker file)
 
 Creating one or more containers using sinhgle Dockerfile is called multi stack docker file
 
+# to specify tag for that image creation using docker file we can manually specify by
+docker build -t demo:v1    (To give tag for that image)
 
+To change tag 
 
+docker tag ubuntu:latest myubuntu:v1
+..........................
 
+# Docker commit
+ whever you make changes inside of container, it can be helpful to commit a containers file changes and settinds into new image
+ By default the container being commited and its process will be paused while the image is committed
 
-########Docker compose
+ docker container commit CONTAINER-ID myimage01
+docker container commit --change='CMD ["ASH"]'
+The --change option will apply to dockerfile instructions to the image that is created.
+
+######## Docker compose
 apt install docker-compose                          (It installs Docker compose in the instance)
 docker-compose -v                                   (TO check version of compose)
 -See that docker version installed in system is same as version declared in compose.Yaml file
@@ -243,7 +278,7 @@ docker-compose up                                   (TO run a compose file in do
 
 
 
-########Docker swarm
+######## Docker swarm
 -Docker swarm can solve the draw backs of docker compose as in follow below:
 -Docker swarm helps to communicate from one server level containers to another servers, May be any container of another server we can establish connection in between the both.
 -Docker swarm is as orchestration tool same as Kubernetes
@@ -300,7 +335,7 @@ watch docker node ls                          (To watch the live containers upda
 
 
 ########-docker swarm Rolling update
-to update the container from one version to another like to update from older version to newer version in containers
+to update the container from one version to another like to update from older version to newer version in containers while running and being serving online
 
 For example 
 There are 3 containers with redis image version 3.06 as below created
@@ -317,8 +352,13 @@ The given update-delay command while creating a container helps to delay the con
 
 updates help to fix the bugs and reduce quality issues
 
+docker service create -- replicas 5 --publish 555:80 --name nginx --update-parallelism 1 --update-delay 10s nginx:latest.
+(In real time we dont use this command to create service as service is already exist, if creating new service we use this command if not enter cmd as below to perfom rolling update)
+
 docker service update --update-parllelism 2 --update-delay 10s redis:3.0.7 
-To create containers parllelly
+T--update parrlelism means how many containers should update first, update delay means delay of update between one container to another.
+
+docker service update --image imagename:latest (to update version of image Note:update can happen only for same image version cannot change from nginx to ubuntu image)
 
 This helps the containers not to stop but update online
 
@@ -420,6 +460,15 @@ you will get encoded result of secrets
 All the secrets configuration and environment variables are mentioned and required changes and configuration stack.yml file is deployed
 #Refer stack file in docker git folder to know more related to secrets configuration.
 
+For example if There are two containers in a single master node
+one is Mysql and second is secrets
+get inside of mysql container which is created by using stack.yml file
+docker exec -it container_id of Mysql     (TO get inside of Mysql Container)
+to access Mysql 
+mysql -u root -p      (Run the command to access mysql with password and give root password which u find in secrets container)
+Here,the result is mysql is still accepting as password which is kept as secrets in another container.
+
+
 ##########How to deploy a stack file.yml
 The stack file version mentioned in file and docker swarm intsalled version should match both
 Switch to root user first
@@ -428,20 +477,152 @@ docker service ls
 docker service ps 
 docker service ps name_of_service
 
-For example if There are two containers in a single master node
-one is Mysql and second is secrets
-get inside of mysql container which is created by using stack.yml file
-docker exec -it container_id of Mysql     (TO get inside of Mysql Container)
-to access Mysql 
-mysql -u root -p      (Run the command to access mysql with password and give root password which u find in secrets container)
+
 
 ############docker config
+In Runtime if we want to change some information or variable to that container we, use docker config.
+
+In simple, creating the customized image from original image while creating FROM IMAGE TO container WITH SOME CHANGES IN THAT IMAGE is called the docker config.
+
+In a image there is a website and we need to change the name of the website in index.html file
+
+hence we create the config service first and will create replacement of index.html file whciis newly created as variable 
+
+while creating the container giving orginal image name and passing config service created arguments so that to created customized image as result in that container.
+
+Create the file with required changes with file name, Type the commands below to create config map method
+docker config create config_name newly_created_file_name_to_update_as_config_method     (to create a config service )
+
+docker config ls                               (list of config files which are ready to implement)
+NOW WE HAVE CREATED A CONFIG-MAP
+
+docker service create --name name_of_service --config src=name_of_config_created, target=/usr/share/nginx/html/index.tml --publish 8888:80 imagename:tag
+
+(src=means it is replacing the config to that orginal image) and (Target means where that files changes location has to be replaced) imagename:tag= which is orginal image.
+
+Now we have customized image in that orginal image by using config map or docker config method.
+
+
+
+########Docker Reservation and limits or Autoscalling concept
+The Autoscalling concept happens in docker with in containers only not to servers configuration
+In docker we have reservation and limits concept where the we can fix limits and reservation for the containers 
+when there is a load in a weside and containers capacities increase a lot and hence we create limits to that container so that the container should not crash and fail
+which helps to create autoscalling concept, where the scalling of containers and duplication means creation of new containers happens here.
+
+We can use server level autoscalling also by using Amazon machine image an take backup of that image and auto scale those servers also
+
+Reservation concept is highly used in databases node as they should not crash.
+
+docker service create --name LIMIT_TEST --limit-cpu .25 --limit-memory 200m --replicas 3 --publish 777:80 nginx:latest
+(.25 represents here to utilize only 25 percent of CPU)
+
+docker service create --name pressure --limit-cpu .25 --limit-memory 200m --replicas 3 --publish 666:80 sreeharshav/stress:300m
+here we are creating pressure service for the conatiner as a test, as limit is reserved as 200mb and stress giving as 300mb the containers get restart multiple times.
+
+##############Types of Deployment
+Rolling deployment
+Blue and Green deployment
+Canary deployment
+
+
+###########Blue and Green deployments 
+Usually this deployment used to deploy this method in early 2000's period 
+In blue and green deployment for example
+we have  two services or servers  A and B to support online
+
+A and B servers DNS name is www.xyz.com and both are interconnected to load-balancer and connected to Route53.
+
+Usally in blue and green deployment the systems use to update in a manner like 
+we seggregate servers with DNS names as
+
+ A is connected to world www.xyz.com () which has some issues and bugs
+ B is also connected to world with www.test.xyz.com which is updated with new code and fix 
+
+Team will test the server B as new update as if everything is okay and DNS will be flipped to origin DNS as www.xyz.com back to online and update the server A and the next.
+
+Draw backs are there is downtime in this deployment
+
+This is how blue green deployment update works.
+
+
+
+
+
+####################canary deployment
+Canary deplyment is used alot by more by the Organizations
+Four types of Environment:
+Development
+Pie-Testing Environemnt
+Staging-Preproduction
+Production_live
+
+In canary deployment we define by Weights in Route53.
+
+we have  two services or servers  A and B to support online
+
+A and B servers DNS name is www.xyz.com and both are interconnected to load-balancer and connected to Route53.
+
+here we will define weights for each server 
+
+Assume total weight as 250, both servers weight in route53 is equally distributed
+
+we will update server B with new changes and give weightage as 50 to that so that few customers can access online and test the new features
+
+if everything is okay we will increase weightage to B server and reduce weightage to A server
+
+and finally disconnect A server, if everything goes right with B server all give all weightage to access that update 
+
+This is how canary deployment works
+
+The server A is removed out of service as deactive from route53 in internet,so all the load goes to server B, In future if to update again new features we use serverA and update and give weightage to that and link to Route53 back and remove B server..
+
+This is continious process for updates.
+
+
+
+
+###################Docker logs
+docker service ls
+docker service logs service_name      (TO check log details of partiular service name)
+
+How to check docker logs
+
+The path is cd/var/lib/docker/containers
+get inside of path
+ls
+list of containers folder with there id is visible
+cd container_iD_name_folder
+ls
+you will see few files over there
+but 
+you can see a file with an container_id-json.log
+cat that file
+you will see all logs related that container.
+
+apt install -y jq         (To see logs in Pretty way, as human readable format)
+
+cat container_file-name-json.log | jg    (TO see log in pretty way)
+
+################How to convert a Node to master or create two master or manager nodes
+docker node promote worker_ip_address           (Promote worker to manager node)
+
+docker node demote manager_ip_address           (to demote manager to worker)
+
+...................................................................########################.............................................
 
 
 
 
 
 
-########Docker reservation and limits
+
+
+
+
+
+
+
+
 
 
